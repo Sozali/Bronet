@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../services/booking_api.dart';
+import '../services/auth_service.dart';
+import 'login_screen.dart';
+import 'payment_screen.dart';
+import 'subscription_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -12,6 +17,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _notifications = true;
   bool _locationAccess = true;
   bool _faceId = false;
+  int _points = 2840;
+  bool _loadingPoints = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPoints();
+  }
+
+  Future<void> _loadPoints() async {
+    setState(() => _loadingPoints = true);
+    final pts = await BookingApi.getPoints(AuthService.clientName);
+    if (mounted) setState(() { _points = pts; _loadingPoints = false; });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +43,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _buildHeader(),
               _buildStatsRow(),
               _buildLoyaltyCard(),
-              _buildSectionLabel('Account'),
-              _buildMenuItem(Icons.person_outline_rounded, 'Edit Profile', 'Update your info', null, () {}),
-              _buildMenuItem(Icons.location_on_outlined, 'Saved Addresses', '3 addresses', null, () {}),
-              _buildMenuItem(Icons.credit_card_rounded, 'Payment Methods', 'Visa •• 4242', null, () {}),
-              _buildMenuItem(Icons.favorite_outline_rounded, 'Favourites', '12 saved', null, () {}),
-              _buildSectionLabel('Preferences'),
-              _buildToggleItem(Icons.notifications_outlined, 'Notifications', 'Booking reminders & deals', _notifications, (v) => setState(() => _notifications = v)),
-              _buildToggleItem(Icons.location_searching_rounded, 'Location Access', 'For nearby providers', _locationAccess, (v) => setState(() => _locationAccess = v)),
-              _buildToggleItem(Icons.fingerprint_rounded, 'Face ID / Fingerprint', 'Quick login', _faceId, (v) => setState(() => _faceId = v)),
-              _buildSectionLabel('Support'),
-              _buildMenuItem(Icons.help_outline_rounded, 'Help Center', 'FAQ & guides', null, () {}),
-              _buildMenuItem(Icons.chat_bubble_outline_rounded, 'Live Chat', 'We reply in minutes', null, () {}),
-              _buildMenuItem(Icons.star_outline_rounded, 'Rate the App', 'Love Bronet? Tell us!', null, () {}),
-              _buildMenuItem(Icons.share_outlined, 'Invite Friends', 'Get 10 AZN credit', const Color(0xFFA8B6A1), () {}),
+              _buildSectionLabel('Hesab'),
+              _buildMenuItem(Icons.person_outline_rounded, 'Profili Redaktə et', 'Məlumatlarınızı yeniləyin', null, () {}),
+              _buildMenuItem(Icons.location_on_outlined, 'Yadda saxlanmış ünvanlar', '3 ünvan', null, () {}),
+              _buildMenuItem(Icons.credit_card_rounded, 'Ödəniş Üsulları', 'Visa •• 4242', null, () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const PaymentScreen()));
+              }),
+              _buildMenuItem(Icons.favorite_outline_rounded, 'Sevimlilər', '12 saxlanmış', null, () {}),
+              _buildMenuItem(Icons.workspace_premium_rounded, 'Abunəlik Planı', 'Qızıl Üzv', BronetColors.amber, () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const SubscriptionScreen()));
+              }),
+              _buildSectionLabel('Parametrlər'),
+              _buildToggleItem(Icons.notifications_outlined, 'Bildirişlər', 'Rezerv xatırlatmaları', _notifications, (v) => setState(() => _notifications = v)),
+              _buildToggleItem(Icons.location_searching_rounded, 'Yerə Giriş', 'Yaxın xidmət üçün', _locationAccess, (v) => setState(() => _locationAccess = v)),
+              _buildToggleItem(Icons.fingerprint_rounded, 'Barmaq izi / Face ID', 'Sürətli giriş', _faceId, (v) => setState(() => _faceId = v)),
+              _buildSectionLabel('Dəstək'),
+              _buildMenuItem(Icons.help_outline_rounded, 'Kömək Mərkəzi', 'FAQ & bələdçilər', null, () {}),
+              _buildMenuItem(Icons.chat_bubble_outline_rounded, 'Canlı Söhbət', 'Dəqiqələrdə cavab veririk', null, () {}),
+              _buildMenuItem(Icons.star_outline_rounded, 'Tətbiqi Qiymətləndir', 'Bronet-i sevirsiniz?', null, () {}),
+              _buildMenuItem(Icons.share_outlined, 'Dostları Dəvət Et', 'Hər dost üçün 500 xal', BronetColors.sage, () {}),
               _buildSectionLabel(''),
               _buildLogoutButton(),
               const SizedBox(height: 32),
@@ -61,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF2C3528), Color(0xFF1E2A1A)],
+          colors: [BronetColors.forest, BronetColors.forestDeep],
         ),
         borderRadius: BorderRadius.circular(24),
         boxShadow: BronetColors.shadowStrong,
@@ -92,11 +116,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 decoration: BoxDecoration(
                   color: BronetColors.sage,
                   borderRadius: BorderRadius.circular(11),
-                  border: Border.all(color: const Color(0xFF2C3528), width: 2),
+                  border: Border.all(color: BronetColors.forest, width: 2),
                 ),
                 child: const Center(
                   child: Icon(Icons.edit_rounded,
-                    size: 10, color: Color(0xFF2C3528)),
+                    size: 10, color: Colors.white),
                 ),
               ),
             ),
@@ -106,13 +130,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Ismayil Məmmədov', style: TextStyle(
+                Text(AuthService.displayName, style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
                 )),
                 const SizedBox(height: 3),
-                Text('+994 50 123 45 67', style: TextStyle(
+                Text(AuthService.phone, style: TextStyle(
                   color: Colors.white.withOpacity(0.55),
                   fontSize: 13,
                 )),
@@ -160,10 +184,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildStatsRow() {
     final stats = [
-      {'value': '7', 'label': 'Bookings'},
-      {'value': '4.9', 'label': 'Avg Rating'},
-      {'value': '284₼', 'label': 'Total Spent'},
-      {'value': '3', 'label': 'Favourites'},
+      {'value': '7', 'label': 'Rezervlər'},
+      {'value': '4.9', 'label': 'Ort. Reytinq'},
+      {'value': '284₼', 'label': 'Ümumi Xərc'},
+      {'value': '3', 'label': 'Sevimlilər'},
     ];
     return Container(
       margin: const EdgeInsets.fromLTRB(18, 0, 18, 16),
@@ -195,6 +219,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildLoyaltyCard() {
+    const target = 4000;
+    final progress = (_points / target).clamp(0.0, 1.0);
+    final remaining = (target - _points).clamp(0, target);
+    final azn = (_points / 200).floor(); // 1000 pts = 5 AZN → 200 pts = 1 AZN
+
     return Container(
       margin: const EdgeInsets.fromLTRB(18, 0, 18, 20),
       padding: const EdgeInsets.all(18),
@@ -211,26 +240,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(children: [
-                const Text('🎁', style: TextStyle(fontSize: 18)),
+                const Text('⭐', style: TextStyle(fontSize: 18)),
                 const SizedBox(width: 8),
-                Text('Loyalty Points', style: TextStyle(
+                Text('Sadiqlik Xalları', style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
                   color: BronetColors.forest,
                 )),
               ]),
-              Text('2,840 pts', style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w900,
-                color: BronetColors.sageDark,
-              )),
+              _loadingPoints
+                  ? SizedBox(
+                      width: 20, height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: BronetColors.sage,
+                      ))
+                  : GestureDetector(
+                      onTap: _loadPoints,
+                      child: Text(
+                        '${_points.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')} pts',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: BronetColors.sageDark,
+                        )),
+                    ),
             ],
+          ),
+          const SizedBox(height: 8),
+          // Cash value line
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFB830).withOpacity(0.10),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              const Icon(Icons.monetization_on_rounded,
+                color: Color(0xFFD48A00), size: 14),
+              const SizedBox(width: 5),
+              Text('Dəyəri $azn ₼ · 1.000 xal = 5 ₼',
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFFD48A00),
+                )),
+            ]),
           ),
           const SizedBox(height: 12),
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: LinearProgressIndicator(
-              value: 0.71,
+              value: progress,
               minHeight: 8,
               backgroundColor: BronetColors.bgMuted,
               valueColor: AlwaysStoppedAnimation<Color>(BronetColors.sage),
@@ -240,12 +301,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('2,840 / 4,000 pts to Platinum',
+              Text('$_points / $target xal Platinuma',
                 style: TextStyle(
                   fontSize: 11,
                   color: BronetColors.textMuted,
                 )),
-              Text('1,160 pts left', style: TextStyle(
+              Text('$remaining xal qaldı', style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: BronetColors.sageDark,
@@ -380,11 +441,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  void _confirmLogout() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Çıxış', style: TextStyle(
+          fontWeight: FontWeight.w800, color: BronetColors.textPrimary)),
+        content: const Text('Çıxmaq istədiyinizdən əminsiniz?',
+          style: TextStyle(fontSize: 14, color: BronetColors.textMuted)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Ləğv et', style: TextStyle(color: BronetColors.textMuted)),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              AuthService.logout();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                (_) => false,
+              );
+            },
+            child: const Text('Çıxış',
+              style: TextStyle(color: Color(0xFFFF4D6A), fontWeight: FontWeight.w700)),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildLogoutButton() {
     return Container(
       margin: const EdgeInsets.fromLTRB(18, 0, 18, 8),
       child: GestureDetector(
-        onTap: () {},
+        onTap: _confirmLogout,
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 15),
@@ -398,7 +491,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Icon(Icons.logout_rounded, color: BronetColors.red, size: 18),
               const SizedBox(width: 8),
-              Text('Log Out', style: TextStyle(
+              Text('Çıxış', style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
                 color: BronetColors.red,

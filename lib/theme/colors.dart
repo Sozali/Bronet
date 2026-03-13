@@ -1,45 +1,47 @@
 import 'package:flutter/material.dart';
 
 class BronetColors {
-  // Sage grey-green accent
-  static const sage         = Color(0xFFA8B6A1);  // original sage
-  static const sageDark     = Color(0xFF7B9180);  // grey-green
-  static const sageLight    = Color(0xFFBEC8B8);  // light sage
-  static const sageBg       = Color(0xFFE4EDEA);  // soft sage background
+  // Blue accent (trust palette)
+  static const sage         = Color(0xFF68A8D4);  // medium blue accent
+  static const sageDark     = Color(0xFF4A88BB);  // darker blue
+  static const sageLight    = Color(0xFF96C3E3);  // light blue
+  static const sageBg       = Color(0xFFD4EAFB);  // soft blue background
 
   // App backgrounds
-  static const bgApp        = Color(0xFFF0F5EC);
+  static const bgApp        = Color(0xFFEEF5FB);
   static const bgCard       = Color(0xFFFFFFFF);
-  static const bgSurface    = Color(0xFFF0F4ED);
-  static const bgMuted      = Color(0xFFE4EAE0);
+  static const bgSurface    = Color(0xFFF0F6FC);
+  static const bgMuted      = Color(0xFFDFF0FA);
 
-  // Dark
-  static const forest       = Color(0xFF2C3528);
-  static const forestDeep   = Color(0xFF1E2A1A);
+  // Primary blue
+  static const forest       = Color(0xFF1A6CC5);
+  static const forestDeep   = Color(0xFF1155A8);
 
   // Text
-  static const textPrimary  = Color(0xFF2C3528);
-  static const textMuted    = Color(0xFF6E7E68);
-  static const textLight    = Color(0xFF9AAA94);
+  static const textPrimary  = Color(0xFF1A3A5C);
+  static const textMuted    = Color(0xFF4872A0);
+  static const textLight    = Color(0xFF78A0C0);
 
   // Status
   static const red          = Color(0xFFFF4D6A);
   static const amber        = Color(0xFFFFB830);
   static const green        = Color(0xFF3DAD7F);
 
-  static List<BoxShadow> shadow = [
+  // 0x14 = ~8% opacity — blue-tinted shadow
+  static const List<BoxShadow> shadow = [
     BoxShadow(
-      color: Colors.black.withOpacity(0.08),
+      color: Color(0x141A6CC5),
       blurRadius: 16,
-      offset: const Offset(0, 4),
+      offset: Offset(0, 4),
     )
   ];
 
-  static List<BoxShadow> shadowStrong = [
+  // 0x24 = ~14% opacity
+  static const List<BoxShadow> shadowStrong = [
     BoxShadow(
-      color: Colors.black.withOpacity(0.14),
+      color: Color(0x241A6CC5),
       blurRadius: 28,
-      offset: const Offset(0, 8),
+      offset: Offset(0, 8),
     )
   ];
 }
