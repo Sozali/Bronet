@@ -143,9 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
           boxShadow: BronetColors.shadow,
         ),
         child: Row(children: [
-          Icon(Icons.search_rounded, color: BronetColors.textLight, size: 20),
+          const Icon(Icons.search_rounded, color: BronetColors.textLight, size: 20),
           const SizedBox(width: 10),
-          Expanded(
+          const Expanded(
             child: Text(
               'Search service, clinic, barber...',
               style: TextStyle(color: BronetColors.textLight, fontSize: 14),
@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: BronetColors.sageBg,
               borderRadius: BorderRadius.circular(9),
             ),
-            child: Icon(Icons.tune_rounded, color: BronetColors.sageDark, size: 16),
+            child: const Icon(Icons.tune_rounded, color: BronetColors.sageDark, size: 16),
           ),
         ]),
       ),
@@ -299,7 +299,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Color(0xFF2C3528),
             letterSpacing: -0.2,
           )),
-          Text('See all', style: TextStyle(
+          const Text('See all', style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             color: BronetColors.sageDark,
@@ -369,13 +369,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       )),
                       const SizedBox(height: 5),
                       Row(children: [
-                        Text('${d['new']} AZN', style: TextStyle(
+                        Text('${d['new']} AZN', style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w900,
                           color: BronetColors.forest,
                         )),
                         const SizedBox(width: 6),
-                        Text('${d['old']} AZN', style: TextStyle(
+                        Text('${d['old']} AZN', style: const TextStyle(
                           fontSize: 11,
                           color: BronetColors.textLight,
                           decoration: TextDecoration.lineThrough,
@@ -449,7 +449,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(p['cat'] as String, style: TextStyle(
+                      Text(p['cat'] as String, style: const TextStyle(
                         fontSize: 9,
                         fontWeight: FontWeight.w800,
                         color: BronetColors.sageDark,
@@ -463,12 +463,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ), maxLines: 1, overflow: TextOverflow.ellipsis),
                       const SizedBox(height: 5),
                       Row(children: [
-                        Icon(Icons.location_on_rounded, size: 11, color: BronetColors.textLight),
+                        const Icon(Icons.location_on_rounded, size: 11, color: BronetColors.textLight),
                         const SizedBox(width: 2),
-                        Text(p['dist'] as String, style: TextStyle(
+                        Text(p['dist'] as String, style: const TextStyle(
                           fontSize: 11, color: BronetColors.textMuted)),
                         const Spacer(),
-                        Text('${p['from']} AZN', style: TextStyle(
+                        Text('${p['from']} AZN', style: const TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
                           color: BronetColors.sageDark,

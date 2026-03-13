@@ -225,7 +225,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
               border: Border.all(color: BronetColors.sage.withOpacity(0.3)),
             ),
             child: Text('${_filtered.length} places',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: BronetColors.sageDark,
@@ -248,13 +248,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
           boxShadow: BronetColors.shadow,
         ),
         child: Row(children: [
-          Icon(Icons.search_rounded, color: BronetColors.textLight, size: 18),
+          const Icon(Icons.search_rounded, color: BronetColors.textLight, size: 18),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(
               controller: _searchController,
               onChanged: (v) => setState(() => _searchText = v),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Search providers...',
                 hintStyle: TextStyle(
                   color: BronetColors.textLight,
@@ -262,9 +262,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
                 border: InputBorder.none,
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                contentPadding: EdgeInsets.symmetric(vertical: 10),
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13,
                 color: BronetColors.textPrimary,
               ),
@@ -276,7 +276,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 _searchController.clear();
                 setState(() => _searchText = '');
               },
-              child: Icon(Icons.close_rounded,
+              child: const Icon(Icons.close_rounded,
                 color: BronetColors.textLight, size: 16),
             ),
         ]),
@@ -338,7 +338,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
       child: Row(
         children: [
-          Text('Sort by:',
+          const Text('Sort by:',
             style: TextStyle(
               fontSize: 12,
               color: BronetColors.textMuted,
@@ -379,19 +379,19 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget _buildProviderList() {
     final list = _filtered;
     if (list.isEmpty) {
-      return Center(
+      return const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('🔍', style: TextStyle(fontSize: 48)),
-            const SizedBox(height: 16),
+            Text('🔍', style: TextStyle(fontSize: 48)),
+            SizedBox(height: 16),
             Text('No providers found',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: BronetColors.textMuted,
               )),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Text('Try a different category or search',
               style: TextStyle(
                 fontSize: 13,
@@ -470,7 +470,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(p['cat'] as String, style: TextStyle(
+                      Text(p['cat'] as String, style: const TextStyle(
                         fontSize: 9,
                         fontWeight: FontWeight.w800,
                         color: BronetColors.sageDark,
@@ -505,20 +505,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     const Icon(Icons.star_rounded,
                       size: 12, color: Color(0xFFFFB830)),
                     const SizedBox(width: 3),
-                    Text(p['rating'] as String, style: TextStyle(
+                    Text(p['rating'] as String, style: const TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: BronetColors.textPrimary,
                     )),
-                    Text(' (${p['reviews']})', style: TextStyle(
+                    Text(' (${p['reviews']})', style: const TextStyle(
                       fontSize: 11,
                       color: BronetColors.textLight,
                     )),
                     const SizedBox(width: 8),
-                    Icon(Icons.location_on_rounded,
+                    const Icon(Icons.location_on_rounded,
                       size: 11, color: BronetColors.textLight),
                     const SizedBox(width: 2),
-                    Text(p['dist'] as String, style: TextStyle(
+                    Text(p['dist'] as String, style: const TextStyle(
                       fontSize: 11,
                       color: BronetColors.textMuted,
                     )),
@@ -528,7 +528,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('from ${p['from']} AZN',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: BronetColors.sageDark,

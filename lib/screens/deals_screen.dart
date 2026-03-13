@@ -192,8 +192,8 @@ class _DealsScreenState extends State<DealsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text('Hot Deals', style: TextStyle(
+          const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('Hot Deals', style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w900,
               color: Color(0xFF2C3528),
@@ -213,11 +213,11 @@ class _DealsScreenState extends State<DealsScreen> {
               border: Border.all(color: BronetColors.red.withOpacity(0.2)),
             ),
             child: Row(children: [
-              Icon(Icons.local_fire_department_rounded,
+              const Icon(Icons.local_fire_department_rounded,
                 color: BronetColors.red, size: 16),
               const SizedBox(width: 5),
               Text('${_filtered.length} deals',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
                   color: BronetColors.red,
@@ -413,7 +413,7 @@ class _DealsScreenState extends State<DealsScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(d['cat'] as String, style: TextStyle(
+                    Text(d['cat'] as String, style: const TextStyle(
                       fontSize: 9,
                       fontWeight: FontWeight.w800,
                       color: BronetColors.sageDark,
@@ -423,7 +423,7 @@ class _DealsScreenState extends State<DealsScreen> {
                       const Icon(Icons.star_rounded,
                         size: 12, color: Color(0xFFFFB830)),
                       const SizedBox(width: 3),
-                      Text(d['rating'] as String, style: TextStyle(
+                      Text(d['rating'] as String, style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                         color: BronetColors.textPrimary,
@@ -438,7 +438,7 @@ class _DealsScreenState extends State<DealsScreen> {
                   color: Color(0xFF2C3528),
                 )),
                 const SizedBox(height: 3),
-                Text(d['provider'] as String, style: TextStyle(
+                Text(d['provider'] as String, style: const TextStyle(
                   fontSize: 12,
                   color: BronetColors.textMuted,
                 )),
@@ -448,19 +448,19 @@ class _DealsScreenState extends State<DealsScreen> {
                   children: [
                     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Row(children: [
-                        Text('${d['newPrice']} AZN', style: TextStyle(
+                        Text('${d['newPrice']} AZN', style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w900,
                           color: BronetColors.forest,
                         )),
                         const SizedBox(width: 8),
-                        Text('${d['oldPrice']} AZN', style: TextStyle(
+                        Text('${d['oldPrice']} AZN', style: const TextStyle(
                           fontSize: 13,
                           color: BronetColors.textLight,
                           decoration: TextDecoration.lineThrough,
                         )),
                       ]),
-                      Text(d['left'] as String, style: TextStyle(
+                      Text(d['left'] as String, style: const TextStyle(
                         fontSize: 11,
                         color: BronetColors.red,
                         fontWeight: FontWeight.w600,

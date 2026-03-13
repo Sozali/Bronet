@@ -154,7 +154,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
               borderRadius: BorderRadius.circular(12),
               boxShadow: BronetColors.shadow,
             ),
-            child: Icon(Icons.filter_list_rounded,
+            child: const Icon(Icons.filter_list_rounded,
               color: BronetColors.forest, size: 20),
           ),
         ],
@@ -237,19 +237,19 @@ class _BookingsScreenState extends State<BookingsScreen> {
   Widget _buildList() {
     final list = _current;
     if (list.isEmpty) {
-      return Center(
+      return const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('📭', style: TextStyle(fontSize: 52)),
-            const SizedBox(height: 16),
+            Text('📭', style: TextStyle(fontSize: 52)),
+            SizedBox(height: 16),
             Text('No bookings here',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: BronetColors.textMuted,
               )),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Text('Your bookings will appear here',
               style: TextStyle(
                 fontSize: 13,
@@ -348,25 +348,25 @@ class _BookingsScreenState extends State<BookingsScreen> {
                         ],
                       ),
                       const SizedBox(height: 3),
-                      Text(b['provider'] as String, style: TextStyle(
+                      Text(b['provider'] as String, style: const TextStyle(
                         fontSize: 12,
                         color: BronetColors.textMuted,
                       )),
                       const SizedBox(height: 5),
                       Row(children: [
-                        Icon(Icons.person_rounded,
+                        const Icon(Icons.person_rounded,
                           size: 12, color: BronetColors.textLight),
                         const SizedBox(width: 3),
-                        Text(b['specialist'] as String, style: TextStyle(
+                        Text(b['specialist'] as String, style: const TextStyle(
                           fontSize: 11,
                           color: BronetColors.textMuted,
                         )),
                         const SizedBox(width: 10),
-                        Icon(Icons.access_time_rounded,
+                        const Icon(Icons.access_time_rounded,
                           size: 12, color: BronetColors.textLight),
                         const SizedBox(width: 3),
                         Text('${b['date']} • ${b['time']}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 11,
                             color: BronetColors.textMuted,
                           )),
@@ -385,13 +385,13 @@ class _BookingsScreenState extends State<BookingsScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(b['id'] as String, style: TextStyle(
+                Text(b['id'] as String, style: const TextStyle(
                   fontSize: 11,
                   color: BronetColors.textLight,
                   fontWeight: FontWeight.w600,
                 )),
                 Row(children: [
-                  Text(b['price'] as String, style: TextStyle(
+                  Text(b['price'] as String, style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
                     color: BronetColors.forest,
@@ -425,7 +425,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                       border: Border.all(
                         color: BronetColors.red.withOpacity(0.2)),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text('Cancel Booking', style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,

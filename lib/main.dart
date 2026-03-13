@@ -40,9 +40,9 @@ class _RootScreenState extends State<RootScreen> {
   final List<Widget> _screens = const [
     HomeScreen(),
     ExploreScreen(),
-   const DealsScreen(),
-    const BookingsScreen(),
-    const ProfileScreen(),
+   DealsScreen(),
+    BookingsScreen(),
+    ProfileScreen(),
   ];
 
   @override
