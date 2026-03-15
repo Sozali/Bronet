@@ -51,9 +51,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     setState(() { _loading = true; _error = null; });
-    await Future.delayed(const Duration(milliseconds: 400));
 
-    AuthService.register(
+    final err = await AuthService.register(
       name: name,
       phone: phone,
       email: email,
@@ -61,7 +60,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     if (!mounted) return;
-    Navigator.pushReplacementNamed(context, '/root');
+    if (err != null) {
+      setState(() { _loading = false; _error = err; });
+    }
+    // On success, AuthGate in main.dart automatically navigates to RootScreen
   }
 
   @override

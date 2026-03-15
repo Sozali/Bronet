@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/home_screen.dart';
 import 'screens/explore_screen.dart';
 import 'screens/deals_screen.dart';
 import 'screens/bookings_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/login_screen.dart';
-import 'services/auth_service.dart';
 
-void main() {
+const _supabaseUrl = 'https://rdrglgqqehxudsfrnudv.supabase.co';
+const _supabaseAnonKey =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkcmdsZ3FxZWh4dWRzZnJudWR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1OTUzNDAsImV4cCI6MjA4OTE3MTM0MH0.m5QNswAjP93-_U8wQeyHn0e4lZtsa2VMy-MDXXEvzb4';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(url: _supabaseUrl, anonKey: _supabaseAnonKey);
   runApp(const BronetApp());
 }
 
@@ -25,10 +31,22 @@ class BronetApp extends StatelessWidget {
           seedColor: const Color(0xFF1A6CC5),
         ),
       ),
-      home: AuthService.isLoggedIn ? const RootScreen() : const LoginScreen(),
-      routes: {
-        '/root': (_) => const RootScreen(),
-        '/login': (_) => const LoginScreen(),
+      home: const AuthGate(),
+    );
+  }
+}
+
+class AuthGate extends StatelessWidget {
+  const AuthGate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<AuthState>(
+      stream: Supabase.instance.client.auth.onAuthStateChange,
+      builder: (context, snapshot) {
+        final session = snapshot.data?.session
+            ?? Supabase.instance.client.auth.currentSession;
+        return session != null ? const RootScreen() : const LoginScreen();
       },
     );
   }

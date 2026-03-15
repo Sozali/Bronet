@@ -27,15 +27,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _login() async {
     setState(() { _loading = true; _error = null; });
-    await Future.delayed(const Duration(milliseconds: 300));
-    final ok = AuthService.login(_phoneCtrl.text, _passCtrl.text);
+    final err = await AuthService.login(_phoneCtrl.text, _passCtrl.text);
     if (!mounted) return;
-    if (ok) {
-      Navigator.pushReplacementNamed(context, '/root');
+    if (err == null) {
+      // AuthGate in main.dart will automatically navigate to RootScreen
     } else {
       setState(() {
         _loading = false;
-        _error = 'Telefon/e-poçt və ya şifrə yanlışdır. Cəhd edin: +994 50 123 45 67 / Bronet123';
+        _error = err;
       });
     }
   }

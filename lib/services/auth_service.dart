@@ -1,53 +1,81 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class AuthService {
-  static bool isLoggedIn = false;
-  static Map<String, String> currentUser = {};
+  static final _client = Supabase.instance.client;
 
-  static const List<Map<String, String>> _users = [
-    {
-      'name': 'Ismayil Məmmədov',
-      'phone': '+994 50 123 45 67',
-      'email': 'ismayil@bronet.az',
-      'password': 'Bronet123',
-    },
-  ];
+  static User? get currentUser => _client.currentUser;
+  static bool get isLoggedIn => currentUser != null;
 
-  static bool login(String phoneOrEmail, String password) {
-    final input = phoneOrEmail.trim();
-    for (final u in _users) {
-      if ((u['phone'] == input || u['email'] == input) &&
-          u['password'] == password) {
-        isLoggedIn = true;
-        currentUser = Map<String, String>.from(u);
-        return true;
-      }
+  static String get clientName =>
+      currentUser?.userMetadata?['full_name'] as String? ?? 'Qonaq';
+  static String get displayName => clientName;
+  static String get firstName => clientName.split(' ').first;
+  static String get phone =>
+      currentUser?.userMetadata?['phone'] as String? ?? '';
+  static String get email => currentUser?.email ?? '';
+
+  /// Returns null on success, or an error message string on failure.
+  static Future<String?> login(String emailOrPhone, String password) async {
+    try {
+      await _client.auth.signInWithPassword(
+        email: emailOrPhone.trim(),
+        password: password,
+      );
+      return null;
+    } on AuthException catch (e) {
+      return e.message;
+    } catch (_) {
+      return 'Giriş zamanı xəta baş verdi';
     }
-    return false;
   }
 
-  static void register({
+  /// Returns null on success, or an error message string on failure.
+  static Future<String?> register({
     required String name,
     required String phone,
     required String email,
     required String password,
-  }) {
-    isLoggedIn = true;
-    currentUser = {
-      'name': name,
-      'phone': phone,
-      'email': email,
-      'password': password,
-    };
+  }) async {
+    try {
+      await _client.auth.signUp(
+        email: email.trim(),
+        password: password,
+        data: {'full_name': name, 'phone': phone},
+      );
+      return null;
+    } on AuthException catch (e) {
+      return e.message;
+    } catch (_) {
+      return 'Qeydiyyat zamanı xəta baş verdi';
+    }
   }
 
-  static void logout() {
-    isLoggedIn = false;
-    currentUser = {};
+  static Future<void> logout() async {
+    await _client.auth.signOut();
   }
 
-  static String get clientName => currentUser['name'] ?? 'Guest';
-  static String get displayName => currentUser['name'] ?? 'Guest';
-  static String get firstName =>
-      (currentUser['name'] ?? 'Guest').split(' ').first;
-  static String get phone => currentUser['phone'] ?? '';
-  static String get email => currentUser['email'] ?? '';
+  static Future<Map<String, dynamic>?> getProfile() async {
+    try {
+      final uid = currentUser?.id;
+      if (uid == null) return null;
+      return await _client
+          .from('profiles')
+          .select()
+          .eq('id', uid)
+          .single();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<bool> updateProfile(Map<String, dynamic> data) async {
+    try {
+      final uid = currentUser?.id;
+      if (uid == null) return false;
+      await _client.from('profiles').update(data).eq('id', uid);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 }
